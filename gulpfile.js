@@ -6,11 +6,7 @@ var gulpConcat      = require('gulp-concat');
 var gulpUglify      = require('gulp-uglify');
 var gulpHtmlmin     = require('gulp-htmlmin');
 var clean           = require('gulp-clean');
-
-// Definisi Task
-gulp.task('sayHello', async function() {
-    console.log('hello, selamat datang di gulp');
-});
+var pug             = require('gulp-pug');
 
 // Membuat server
 gulp.task('server', function() {
@@ -19,6 +15,13 @@ gulp.task('server', function() {
         livereload: true
     });
 });
+
+// render pug file ke html
+gulp.task('pug', function() {  
+    return gulp.src('src/*.pug')
+        .pipe(pug()) 
+        .pipe(gulp.dest('dist'));
+  });
 
 // Task untuk modul minify CSS
 gulp.task('minify-css', async function() {
@@ -72,6 +75,6 @@ gulp.task('clean', function() {
   });
 
 // Build task with clean the dist
-gulp.task('build', gulp.series('clean', 'minify-css', 'minify-js', 'minify-html'));
+gulp.task('build', gulp.series('clean', 'minify-css', 'minify-js', 'minify-html', 'pug'));
 
 
